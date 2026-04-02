@@ -1,7 +1,4 @@
-build_env_vars:
-  ANACONDA_ROCKET_ENABLE_PY314 : yes
-
 channels:
+  - https://staging.continuum.io/pbp/fs/lance-namespace-feedstock/pr1/c85729e
+  - https://staging.continuum.io/pbp/fs/pylance-feedstock/pr2/929adf8
   - https://staging.continuum.io/pbp/fs/retry-feedstock/pr3/1cff0f6
-  - https://staging.continuum.io/preprod-pbp/fs/lance-namespace-feedstock/pr1/b29125d
-
