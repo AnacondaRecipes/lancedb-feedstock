@@ -11,7 +11,7 @@ source:
 
 build:
   number: 0
-  skip: true  # [py<=38]
+  skip: true  # [py<39]
 
 requirements:
   build:
@@ -29,17 +29,28 @@ requirements:
   run:
     - python
     - deprecation
-    - pylance >=0.25.0
-    - lance-namespace
-    - requests >=2.31.0
-    - retry
-    - tqdm
-    - pydantic >=1.10
-    - attrs >=21.3.0
-    - packaging
-    - cachetools
+    - numpy
     - overrides >=0.7
-    - nest-asyncio
+    - packaging
+    - pyarrow >=16
+    - pydantic >=1.10
+    - tqdm >=4.27.0
+    - lance-namespace==0.0.6
+    # Listed as optional but, actually required at runtime for core APIs.
+    - pylance >=0.25
+  run_constrained:
+    # embeddings
+    - requests >=2.31.0
+    - openai >=1.6.1
+    - colpali-engine >=0.3.10
+    - boto3 >=1.28.57
+    - awscli >=1.29.57
+    - botocore >=1.31.57
+    - ollama >=0.3.0
+    - ibm-watsonx-ai >=1.1.2
+
+    #  Azure
+    - adlfs >=2024.2.0
 
 test:
   imports:
@@ -52,8 +63,18 @@ test:
 about:
   home: https://github.com/lancedb/lancedb
   summary: Developer-friendly, serverless vector database for AI applications
+  description: |
+    LanceDB is an embedded vector database for AI applications and retrieval-augmented generation.
+    It stores vectors and metadata on local disk or cloud object storage, supports multimodal search,
+    and integrates with Python data tooling (including PyArrow and Pandas) without running a
+    separate database server.
   license: Apache-2.0
-  license_file: LICENSE
+  license_family: APACHE
+  license_file: 
+    - LICENSE
+    - THIRDPARTY.yml
+  doc_url: https://docs.lancedb.com
+  dev_url: https://github.com/lancedb/lancedb
 
 extra:
   recipe-maintainers:
