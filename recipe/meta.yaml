@@ -1,5 +1,5 @@
 {% set name = "lancedb" %}
-{% set version = "0.21.1" %}
+{% set version = "0.30.2" %}
 
 package:
   name: {{ name|lower }}
@@ -7,11 +7,11 @@ package:
 
 source:
   url: https://github.com/lancedb/lancedb/archive/python-v{{ version }}.tar.gz
-  sha256: 0725a1b5d3d80658e55f596ba7dac362c6970b12007ab3af8f91165823563db0
+  sha256: e3396e68bd6b4207cf709fbe378ee95ac04669c7c1be09009385003045c76070
 
 build:
   number: 0
-  skip: true  # [py<=38]
+  skip: true  # [py<310]
 
 requirements:
   build:
@@ -21,9 +21,6 @@ requirements:
     - cargo-bundle-licenses
     - pkg-config
     - libprotobuf
-    - python                              # [build_platform != target_platform]
-    - cross-python_{{ target_platform }}  # [build_platform != target_platform]
-    - maturin >=1.4                       # [build_platform != target_platform]
   host:
     - python
     - maturin >=1.4
@@ -31,17 +28,39 @@ requirements:
     - openssl
   run:
     - python
-    - deprecation
-    - pylance =0.24.0
-    - requests >=2.31.0
-    - retry
-    - tqdm
+    - deprecation >=2.1.0
+    - numpy >=1.24.0
+    - overrides >=0.7  # [py<312]
+    - packaging >=23.0
+    - pyarrow >=16
     - pydantic >=1.10
-    - attrs >=21.3.0
-    - packaging
-    - cachetools
-    - overrides >=0.7
-    - nest-asyncio
+    - tqdm >=4.27.0
+    - lance-namespace >=0.3.2
+    # Listed as optional but, actually required at runtime for core APIs.
+    - pylance >=4.0.0b7
+  run_constrained:
+    # clip/siglip
+    - pillow >=12.1.1
+    - transformers >=4.41.0
+    # embeddings
+    - requests >=2.31.0
+    - openai >=1.6.1
+    - sentence-transformers >=2.2.0
+    - pytorch >=2.0.0
+    - cohere >=4.0.0
+    - colpali-engine >=0.3.10
+    - huggingface_hub >=0.19.0
+    - InstructorEmbedding >=1.0.1
+    - google.generativeai >=0.3.0
+    - boto3 >=1.28.57
+    - awscli >=1.44.38
+    - botocore >=1.31.57
+    - ibm-watsonx-ai >=1.1.2  # [py>=310]
+    - ollama >=0.3.0
+    - sentencepiece >=0.1.99
+
+    #  Azure
+    - adlfs >=2024.2.0
 
 test:
   imports:
@@ -54,8 +73,18 @@ test:
 about:
   home: https://github.com/lancedb/lancedb
   summary: Developer-friendly, serverless vector database for AI applications
+  description: |
+    LanceDB is an embedded vector database for AI applications and retrieval-augmented generation.
+    It stores vectors and metadata on local disk or cloud object storage, supports multimodal search,
+    and integrates with Python data tooling (including PyArrow and Pandas) without running a
+    separate database server.
   license: Apache-2.0
-  license_file: LICENSE
+  license_family: APACHE
+  license_file: 
+    - LICENSE
+    - THIRDPARTY.yml
+  doc_url: https://docs.lancedb.com
+  dev_url: https://github.com/lancedb/lancedb
 
 extra:
   recipe-maintainers:
