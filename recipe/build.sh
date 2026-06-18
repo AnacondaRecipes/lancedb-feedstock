@@ -10,12 +10,8 @@ for v in CFLAGS CXXFLAGS $(printenv | grep -E '^(CFLAGS|CXXFLAGS)_' | cut -d= -f
   export "$v=${!v//-O2/}"
 done
 
-# Limit parallel Rust codegen to avoid OOM on memory-constrained workers.
-if [[ "${target_platform}" == "linux-aarch64" ]]; then
-  CPU_COUNT=${CPU_COUNT:-$(nproc)}
-  export CARGO_BUILD_JOBS=$(( CPU_COUNT > 2 ? 2 : CPU_COUNT ))
-  export RUSTFLAGS="${RUSTFLAGS:-} -C codegen-units=2"
-fi
+# This is required to get the aarch64 builds to finish without oom errors.
+export CARGO_PROFILE_RELEASE_LTO=thin
 
 pushd python
 
