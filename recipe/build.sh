@@ -14,6 +14,7 @@ done
 if [[ "${target_platform}" == "linux-aarch64" ]]; then
   CPU_COUNT=${CPU_COUNT:-$(nproc)}
   export CARGO_BUILD_JOBS=$(( CPU_COUNT > 2 ? 2 : CPU_COUNT ))
+  export RUSTFLAGS="${RUSTFLAGS:-} -C codegen-units=2"
 fi
 
 pushd python
