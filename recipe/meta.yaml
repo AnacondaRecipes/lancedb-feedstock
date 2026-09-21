@@ -72,7 +72,7 @@ test:
 
 about:
   home: https://github.com/lancedb/lancedb
-  summary: Developer-friendly, serverless vector database for AI applications
+  summary: Developer-friendly, serverless vector database for AI applications.
   description: |
     LanceDB is an embedded vector database for AI applications and retrieval-augmented generation.
     It stores vectors and metadata on local disk or cloud object storage, supports multimodal search,
