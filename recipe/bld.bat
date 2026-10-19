@@ -7,6 +7,9 @@ rem __imp_* symbols (e.g. __imp_clock from zstd-sys). RUSTFLAGS overrides the
 rem workspace config and aligns the Rust link on the dynamic CRT.
 set "RUSTFLAGS=-Ctarget-feature=-crt-static"
 
+rem Prevent memory exhaustion in CI
+set CARGO_PROFILE_RELEASE_LTO=false
+
 cd python
 
 cargo-bundle-licenses ^
