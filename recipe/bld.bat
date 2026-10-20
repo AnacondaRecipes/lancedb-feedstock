@@ -1,11 +1,12 @@
 set OPENSSL_DIR=%LIBRARY_PREFIX%
 
-rem Upstream pins +crt-static in .cargo/config.toml for windows-msvc targets,
-rem but conda-forge compiles C code against the dynamic CRT
-rem (-fms-runtime-lib=dll), so the mixed-CRT link fails with unresolved
-rem __imp_* symbols (e.g. __imp_clock from zstd-sys). RUSTFLAGS overrides the
-rem workspace config and aligns the Rust link on the dynamic CRT.
-set "RUSTFLAGS=-Ctarget-feature=-crt-static"
+rem Upstream .cargo/config.toml sets +crt-static for *-pc-windows-msvc
+rem (static CRT). Conda C deps and cc-rs objects are built against the
+rem dynamic UCRT (/MD, or -fms-runtime-lib=dll with clang), so mixing them
+rem leaves unresolved __imp_* symbols (e.g. __imp_clock from zstd-sys).
+rem RUSTFLAGS takes precedence over target.<triple>.rustflags in the cargo
+rem config, so this forces the dynamic CRT. The conda env provides the runtime.
+set "RUSTFLAGS=%RUSTFLAGS% -Ctarget-feature=-crt-static"
 
 rem Prevent memory exhaustion in CI
 set CARGO_PROFILE_RELEASE_LTO=false
