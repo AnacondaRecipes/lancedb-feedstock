@@ -1,5 +1,5 @@
 {% set name = "lancedb" %}
-{% set version = "0.38.0" %}
+{% set version = "0.41.0" %}
 
 package:
   name: {{ name }}
@@ -7,17 +7,17 @@ package:
 
 source:
   url: https://github.com/{{ name }}/{{ name }}/archive/v{{ version }}.tar.gz
-  sha256: 1d3671e9391a897c8955ac44f0781d27bd2b67168cb03c3a64be787dfc8d1723
+  sha256: 5e2820bedee7556af2a1194488784a517622cb7c4ead366704e95ea874739358
 
 build:
-  number: 1
+  number: 0
   skip: true  # [py<310]
 
 requirements:
   build:
-    - {{ compiler("c") }}
-    - {{ stdlib("c") }}
-    - {{ compiler("rust") }}
+    - {{ stdlib('c') }}
+    - {{ compiler('c') }}
+    - {{ compiler('rust') }}
     - cargo-bundle-licenses
     - pkg-config
     - libprotobuf
@@ -35,10 +35,10 @@ requirements:
     - pyarrow >=16
     - pydantic >=2.7.4,<3
     - tqdm >=4.27.0
-    - lance-namespace >=0.3.2
-    # Listed as optional but, actually required at runtime for core APIs.
-    - pylance >=5.0.0b5
+    - lance-namespace >=0.13.2
   run_constrained:
+    # pylance
+    - pylance >=14.0.2
     # clip/siglip
     - pillow >=12.1.1
     - transformers >=4.41.0
@@ -52,7 +52,7 @@ requirements:
     - colpali-engine >=0.3.10
     - huggingface_hub >=0.19.0
     - InstructorEmbedding >=1.0.1
-    - google.generativeai >=1.0.0
+    - google-genai >=1.0.0
     - boto3 >=1.28.57
     - awscli >=1.44.38
     - botocore >=1.31.57
