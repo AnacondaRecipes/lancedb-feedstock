@@ -35,7 +35,7 @@ requirements:
     - pyarrow >=16
     - pydantic >=2.7.4,<3
     - tqdm >=4.27.0
-    - lance-namespace >=0.13.2
+    - lance-namespace >=0.13.0
   run_constrained:
     # pylance
     - pylance >=14.0.2
